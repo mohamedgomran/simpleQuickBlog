@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+
+<p id="notice"><%= notice %></p>
+
+        <!-- Blog Entries Column -->
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-md-8">
+	  <h1 class="my-4">Comment
+	    <!-- <small>Secondary Text</small> -->
+	  </h1>
+	  <!-- Blog Post -->
+		<div class="card mb-4">
+		  <div class="card-body">
+		    <p class="card-text"><%= @comment.content%></p>
+		    <% if current_user.id == @comment.user.id %>
+		      <%= link_to_post "Edit &rarr;", edit_comment_path(@comment) %>
+		      <td><%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<%= link_to 'Back', posts_path%>
+
+		    <% end %>
+		  </div>
+		  <div class="card-footer text-muted">
+		    Posted on <%= @comment.created_at %> By <%= @comment.user.name %>
+		  </div>
+		</div>
+	</div>
+	<div class="col-2"></div>
+</div>
+
+
+<!--
+<p>
+  <strong>Content:</strong>
+  <%= @comment.content %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @comment.user_id %>
+</p>
+
+<p>
+  <strong>Post:</strong>
+  <%= @comment.post_id %>
+</p>
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

@@ -1,0 +1,76 @@
+<p id="notice"><%= notice %></p>
+
+        <!-- Blog Entries Column -->
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-md-8">
+	  <h1 class="my-4">Post
+	    <!-- <small>Secondary Text</small> -->
+	  </h1>
+	  <!-- Blog Post -->
+		<div class="card mb-4">
+		  <div class="card-body">
+		    <h2 class="card-title"><%= @post.title %></h2>
+		    <p class="card-text"><%= @post.content%></p>
+		    <% if current_user.id == @post.user.id %>
+		      <%= link_to_post "Edit &rarr;", edit_post_path(@post) %>
+		      <td><%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			  <%= link_to 'Back', posts_path%>
+
+		    <% end %>
+		  </div>
+		  <div class="card-footer text-muted">
+		    Posted on <%= @post.created_at %> By <%= @post.user.name %>
+		  </div>
+		</div>
+
+	    <% @post.comments.each do |comment| %>
+		  	<div class="card mb-4">
+			  <div class="card-body">
+			    <p class="card-text"><%= comment.content%></p>
+			    <% if current_user.id == comment.user.id %>
+			      <%= link_to_post "Edit &rarr;", edit_comment_path(comment) %>
+			      <td><%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			    <% end %>
+			  </div>
+			  <div class="card-footer text-muted">
+			    Commented on <%= comment.created_at %> By <%= comment.user.name %>
+			  </div>
+			</div>
+	    <% end %>
+		<%= form_for @comment, :url => url_for(:controller => 'comments', :action => 'create'), html: {class: "form-group"} do |f| %>
+		  <div class="field">
+		  	  <%= f.label :content %><br />
+		  	  <%= f.text_area :content , class: "form-control" %>
+		  </div>
+		  <%= f.hidden_field :user_id, value: current_user.id %>
+		  <%= f.hidden_field :post_id, value: @post.id %>
+		  <%= f.submit "Comment",  class: "btn btn-primary" %>
+		<% end %>
+
+	</div>
+	<div class="col-2"></div>
+</div>
+
+
+
+
+
+<!--
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @post.content %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @post.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
